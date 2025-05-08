@@ -63,16 +63,89 @@ void ReporteDeDatos()
 
 }
 
-void Estadisticas()
+void EstadisticasHabitantesCiudad()
 {
-    foreach (var EstadisticaProvincias in Provincias)
-    {
-        for (int EstadisticaHabitantes = 0; EstadisticaHabitantes <; EstadisticaHabitantes++)
-        {
+    Ciudad ciudadConMasHabitantes = null;
 
+    foreach (var provincia in Provincias)
+    {
+        foreach (var ciudad in provincia.ciudades)
+        {
+            if (ciudadConMasHabitantes == null || ciudad.CantidadDeHabitantes > ciudadConMasHabitantes.CantidadDeHabitantes)
+            {
+                ciudadConMasHabitantes = ciudad;
+            }
         }
     }
 
+    if (ciudadConMasHabitantes != null)
+    {
+        Console.WriteLine($"La ciudad con más habitantes es: {ciudadConMasHabitantes.Nombre} con {ciudadConMasHabitantes.CantidadDeHabitantes} habitantes.");
+    }
+
+}
+void EstadisticasSuperficieCiudad()
+{
+    Ciudad CiudadConMasSuperficie = null;
+
+    foreach (var provincia in Provincias)
+    {
+        foreach (var ciudad in provincia.ciudades)
+        {
+            if (CiudadConMasSuperficie == null || ciudad.Superficie > CiudadConMasSuperficie.Superficie)
+            {
+                CiudadConMasSuperficie = ciudad;
+            }
+        }
+    }
+
+    if (CiudadConMasSuperficie != null)
+    {
+        Console.WriteLine($"La ciudad con más superficie es: {CiudadConMasSuperficie.Nombre} con {CiudadConMasSuperficie.Superficie} km².");
+    }
+
+}
+
+void EstadisticaHabitantesProvicia()
+{
+    Provincia ProvinciaConMasHabitantes = null;
+    int maxHabitantes = 0;
+
+    foreach (var provincia in Provincias)
+    {
+        int sumaHabitantes = provincia.ciudades.Sum(ciudad => ciudad.CantidadDeHabitantes);
+        if (ProvinciaConMasHabitantes == null || sumaHabitantes > maxHabitantes)
+        {
+            ProvinciaConMasHabitantes = provincia;
+            maxHabitantes = sumaHabitantes;
+        }
+    }
+
+    if (ProvinciaConMasHabitantes != null)
+    {
+        Console.WriteLine($"La provincia con más habitantes es: {ProvinciaConMasHabitantes.Nombre} con {maxHabitantes} habitantes.");
+    }
+}
+
+void EstadisticasSuperficieProvincia()
+{
+    Provincia ProvinciaConMasSuperficie = null;
+    int maxSuperficie = 0;
+
+    foreach (var provincia in Provincias)
+    {
+        int sumaSuperficies = provincia.ciudades.Sum(ciudad => ciudad.Superficie);
+        if (ProvinciaConMasSuperficie == null || sumaSuperficies > maxSuperficie)
+        {
+            ProvinciaConMasSuperficie = provincia;
+            maxSuperficie = sumaSuperficies;
+        }
+    }
+
+    if (ProvinciaConMasSuperficie != null)
+    {
+        Console.WriteLine($"La provincia con más superficie es: {ProvinciaConMasSuperficie.Nombre} con {maxSuperficie} habitantes.");
+    }
 }
 
 Console.WriteLine("Saludos. Este es un programa donde puedes cargar Provincias, sus datos como el nombre el gobernador y su region");
@@ -89,5 +162,8 @@ Console.WriteLine("Geniales datos no? Tambien existen un resumen estadistico don
 Console.WriteLine("Te interesa verlo? Presiona una tecla para visualizar el resumen estadistico");
 Console.ReadKey();
 Console.Clear();
-Estadisticas();
+EstadisticasHabitantesCiudad();
+EstadisticasSuperficieCiudad();
+EstadisticaHabitantesProvicia();
+EstadisticasSuperficieProvincia();
 Console.ReadKey();
